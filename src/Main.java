@@ -35,9 +35,10 @@ public class Main {
         }
         outPutCells(cells);
         boolean checkOut = true;
-        int x = 0;
-        int y = 0;
+
         while (checkOut) {
+            int x = 0;
+            int y = 0;
             System.out.print("Enter the coordinates: ");
             String input = scanner.nextLine();
             if (input.matches("\\d+\\s\\d++")) {
@@ -45,6 +46,7 @@ public class Main {
                 y = Integer.parseInt(input.split(" ")[1]);
             } else {
                 System.out.println("You should enter numbers!");
+                continue;
             }
             if (x < 1 || y < 1 || x > 3 || y > 3) {
                 System.out.println("Coordinates should be from 1 to 3!");
@@ -56,6 +58,7 @@ public class Main {
 
             if (cells[posX][posY].equals("X") || cells[posX][posY].equals("O")) {
                 System.out.println("This cell is occupied! Choose another one!");
+                continue;
             } else if (countX == countO) {
                 cells[posX][posY] = "X";
                 countX++;
@@ -68,11 +71,30 @@ public class Main {
 
             if(xWin(cells)){
                 System.out.println("X wins");
+                checkOut = false;
             }else if(oWin(cells)){
                 System.out.println("O wins");
+                checkOut = false;
+            }else if(!xWin(cells) && !oWin(cells) && hasSpace(cells)){
+                System.out.println("Game not finished");
+                checkOut = false;
+            }else{
+                System.out.println("Draw");
+                checkOut = false;
             }
-
         }
+    }
+
+    public static Boolean hasSpace(String[][] cells){
+        int find = 0;
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells.length; j++) {
+                if(cells[i][j].equals("_") || cells[i][j].equals(" ")){
+                    find++;
+                }
+            }
+        }
+        return find > 0 ? true : false;
     }
 
     public static boolean xWin(String[][] cells) {
@@ -82,7 +104,7 @@ public class Main {
             for (int j = 0; j < cells[i].length; j++) {
                 if (counter == 3)
                     break;
-                if (cells[i][j] == "X")
+                if (cells[i][j].equals("X"))
                     counter++;
                 else
                     counter = 0;
@@ -95,7 +117,7 @@ public class Main {
             for (int j = 0; j < cells[i].length; j++) {
                 if (counter == 3)
                     break;
-                if (cells[j][i] == "X")
+                if (cells[j][i].equals("X"))
                     counter++;
                 else
                     counter = 0;
@@ -108,13 +130,13 @@ public class Main {
         for (int i = 0; i < cells.length; i++) {
             if (counter == 3)
                 break;
-            if (cells[i][i] == "X")
+            if (cells[i][i].equals("X"))
                 counter++;
             else
                 counter = 0;
         }
 
-        if (cells[0][2] == "X" && cells[1][1] == "X" && cells[2][0] == "X")
+        if (cells[0][2].equals("X") && cells[1][1].equals("X") && cells[2][0].equals("X"))
             counter = 3;
         if (counter == 3)
             return true;
@@ -129,7 +151,7 @@ public class Main {
             for (int j = 0; j < cells[i].length; j++) {
                 if (counter == 3)
                     break;
-                if (cells[i][j] == "O")
+                if (cells[i][j].equals("O"))
                     counter++;
                 else
                     counter = 0;
@@ -143,7 +165,7 @@ public class Main {
             for (int j = 0; j < cells[i].length; j++) {
                 if (counter == 3)
                     break;
-                if (cells[j][i] == "O")
+                if (cells[j][i].equals("O"))
                     counter++;
                 else
                     counter = 0;
@@ -156,13 +178,13 @@ public class Main {
         for (int i = 0; i < cells.length; i++) {
             if (counter == 3)
                 break;
-            if (cells[i][i] == "O")
+            if (cells[i][i].equals("O"))
                 counter++;
             else
                 counter = 0;
         }
 
-        if (cells[0][2] == "O" && cells[1][1] == "O" && cells[2][0] == "O")
+        if (cells[0][2].equals("O") && cells[1][1].equals("O") && cells[2][0].equals("O"))
             counter = 3;
 
         if (counter == 3)
@@ -186,3 +208,4 @@ public class Main {
         System.out.println("---------");
     }
 }
+
